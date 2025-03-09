@@ -1,12 +1,9 @@
-// src/components/RegistrationForm.js
 import React, { useState } from 'react';
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const [errors, setErrors] = useState({
     username: '',
@@ -16,17 +13,16 @@ const RegistrationForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    if (name === 'username') setUsername(value);
+    if (name === 'email') setEmail(value);
+    if (name === 'password') setPassword(value);
   };
 
   const validate = () => {
     let tempErrors = {};
-    if (!formData.username) tempErrors.username = 'Username is required';
-    if (!formData.email) tempErrors.email = 'Email is required';
-    if (!formData.password) tempErrors.password = 'Password is required';
+    if (!username) tempErrors.username = 'Username is required';
+    if (!email) tempErrors.email = 'Email is required';
+    if (!password) tempErrors.password = 'Password is required';
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -34,7 +30,7 @@ const RegistrationForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log('Form Submitted', formData);
+      console.log('Form Submitted', { username, email, password });
       // Handle form submission, e.g., API call
     }
   };
@@ -46,7 +42,7 @@ const RegistrationForm = () => {
         <input
           type="text"
           name="username"
-          value={formData.username}
+          value={username}
           onChange={handleChange}
         />
         {errors.username && <div>{errors.username}</div>}
@@ -56,7 +52,7 @@ const RegistrationForm = () => {
         <input
           type="email"
           name="email"
-          value={formData.email}
+          value={email}
           onChange={handleChange}
         />
         {errors.email && <div>{errors.email}</div>}
@@ -66,7 +62,7 @@ const RegistrationForm = () => {
         <input
           type="password"
           name="password"
-          value={formData.password}
+          value={password}
           onChange={handleChange}
         />
         {errors.password && <div>{errors.password}</div>}
